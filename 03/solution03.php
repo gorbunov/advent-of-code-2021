@@ -33,6 +33,11 @@ $solver01 = compose(
             fn($signals) => ['gamma' => $most_fn(...$signals), 'epsilon' => $least_fn(...$signals)],
         ),
     ),
+    transpose(...),
+    mapper(fn($item) => array_reverse($item)),
+    mapper(fn($item) => implode('', $item)),
+    mapper(fn($item) => bindec($item)),
+    array_product(...),
     dd(...)
 );
 $solver01($report);
