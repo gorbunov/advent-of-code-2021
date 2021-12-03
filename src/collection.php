@@ -40,11 +40,10 @@ function reducer(mixed $carry, callable $fn): callable
         if (\is_array($iterable)) {
             return array_reduce($iterable, $fn, $carry);
         }
-        $result = null;
         foreach ($iterable as $key => $value) {
-            $result = $fn($carry, $value, $key);
+            $carry = $fn($carry, $value, $key);
         }
-        return $result;
+        return $carry;
     };
 }
 
