@@ -34,15 +34,15 @@ function filterer(callable $fn): callable
     };
 }
 
-function reducer(callable $fn): callable
+function reducer(mixed $carry, callable $fn): callable
 {
-    return static function (iterable $iterable, mixed $initial) use ($fn): iterable {
+    return static function (iterable $iterable) use ($fn, $carry): iterable {
         if (\is_array($iterable)) {
-            return array_reduce($iterable, $fn, $initial);
+            return array_reduce($iterable, $fn, $carry);
         }
         $result = null;
         foreach ($iterable as $key => $value) {
-            $result = $fn($value, $key, $initial);
+            $result = $fn($carry, $value, $key);
         }
         return $result;
     };
