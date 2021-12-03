@@ -4,6 +4,8 @@ namespace Gorbunov\functional\collection;
 
 use JetBrains\PhpStorm\Pure;
 
+use function Gorbunov\functional\suppport\dd;
+
 function mapper(callable $fn): callable
 {
     return static function (iterable $iterable) use ($fn): iterable {
@@ -37,9 +39,11 @@ function filterer(callable $fn): callable
 function reducer(mixed $carry, callable $fn): callable
 {
     return static function (iterable $iterable) use ($fn, $carry): iterable {
+        /*
         if (\is_array($iterable)) {
             return array_reduce($iterable, $fn, $carry);
         }
+        */
         foreach ($iterable as $key => $value) {
             $carry = $fn($carry, $value, $key);
         }
@@ -117,4 +121,16 @@ function slice(int $position, int $length = null): callable
         $iterable = iterable_to_array($iterable);
         return \array_slice($iterable, $position, $length, true);
     };
+}
+
+function transpose(iterable $iterable): iterable
+{
+    return reducer([], function (array $carry, $item) {
+        foreach ($item as $key => $val) {
+            $carry[$key][] = $val;
+        }
+        return $carry;
+    })(
+        $iterable
+    );
 }

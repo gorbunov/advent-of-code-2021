@@ -24,11 +24,3 @@ function partial(mixed $arg, callable $callable): callable
 {
     return static fn(mixed ...$arguments): mixed => $callable($arg, ...$arguments);
 }
-
-function call(mixed $callable): callable
-{
-    if (!\is_callable($callable)) {
-        $callable = $callable(...);
-    }
-    return static fn(mixed $arg) => $callable($arg);
-}
