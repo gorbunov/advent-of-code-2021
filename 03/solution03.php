@@ -11,7 +11,7 @@ use function Gorbunov\functional\collection\transpose;
 require_once __DIR__.'/../vendor/autoload.php';
 
 $report = pipe(
-    file("./sample.txt", FILE_IGNORE_NEW_LINES),
+    file("./input.txt", FILE_IGNORE_NEW_LINES),
     mapper(str_split(...)),
     mapper(fn(array $line) => mapper(intval(...))($line)),
     transpose(...),
@@ -37,7 +37,7 @@ $solver01 = compose(
     mapper(fn($item) => array_reverse($item)),
     mapper(fn($item) => implode('', $item)),
     mapper(fn($item) => bindec($item)),
-    array_product(...),
+    //array_product(...),
     dd(...)
 );
 $solver01($report);
